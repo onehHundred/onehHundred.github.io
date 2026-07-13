@@ -8,15 +8,15 @@
 <link href="https://fonts.googleapis.com/css2?family=Noto+Serif+TC:wght@500;700;900&family=Noto+Sans+TC:wght@400;500;700&family=Space+Mono:wght@400;700&display=swap" rel="stylesheet">
 <style>
   :root{
-    --bg: #f4f8f2;
-    --bg-2: #e8f1e3;
-    --ink: #1f3327;
-    --ink-soft: #4f6b58;
-    --indigo: #2f6b4f;
-    --stamp: #d97a4d;
-    --kraft: #9bb08e;
-    --gold: #c9a227;
-    --paper-line: rgba(31,51,39,0.13);
+    --bg: #eef7fc;
+    --bg-2: #dcedf7;
+    --ink: #1c3a4f;
+    --ink-soft: #52738a;
+    --indigo: #2b7fbf;
+    --stamp: #f2a93c;
+    --kraft: #a8c5d6;
+    --gold: #f2a93c;
+    --paper-line: rgba(28,58,79,0.12);
     --radius: 2px;
   }
 
@@ -49,13 +49,14 @@
 
   header.site{
     position: sticky; top:0; z-index: 50;
-    background: rgba(244,248,242,0.92);
+    background: rgba(238,247,252,0.92);
     backdrop-filter: blur(6px);
     border-bottom: 1px solid var(--paper-line);
   }
   .nav{
     display:flex; align-items:center; justify-content:space-between;
     padding: 16px 24px; max-width: 1080px; margin:0 auto;
+    position: relative;
   }
   .brand{
     font-family:'Noto Serif TC', serif; font-weight:900; font-size: 1.25rem;
@@ -70,11 +71,32 @@
     transition: width 0.25s ease;
   }
   .nav-links a:hover::after{ width:100%; }
-  @media (max-width: 620px){ .nav-links{ display:none; } }
+
+  .nav-toggle{
+    display:none; background:none; border:none; padding:6px; cursor:pointer;
+    flex-direction:column; gap:5px; width:32px;
+  }
+  .nav-toggle span{ display:block; height:2px; background: var(--ink); border-radius:2px; transition: transform 0.2s ease, opacity 0.2s ease; }
+  .nav-toggle.open span:nth-child(1){ transform: translateY(7px) rotate(45deg); }
+  .nav-toggle.open span:nth-child(2){ opacity:0; }
+  .nav-toggle.open span:nth-child(3){ transform: translateY(-7px) rotate(-45deg); }
+
+  @media (max-width: 680px){
+    .nav-toggle{ display:flex; }
+    .nav-links{
+      display:none; position:absolute; top:100%; left:0; right:0;
+      flex-direction:column; gap:0; background: #fdfeff;
+      border-bottom: 1px solid var(--paper-line);
+      box-shadow: 0 12px 20px rgba(28,58,79,0.08);
+    }
+    .nav-links.open{ display:flex; }
+    .nav-links a{ padding: 16px 24px; border-bottom: 1px solid var(--paper-line); }
+    .nav-links a::after{ display:none; }
+  }
 
   .tag{
     position: relative;
-    background: #fbfdf9;
+    background: #fdfeff;
     border: 1px solid var(--paper-line);
     clip-path: polygon(14% 0%, 100% 0%, 100% 100%, 14% 100%, 0% 50%);
     box-shadow: 0 10px 24px rgba(34,48,63,0.10);
@@ -120,10 +142,10 @@
     transition: transform 0.18s ease, background 0.18s ease, color 0.18s ease;
     cursor:pointer;
   }
-  .btn-primary{ background: var(--stamp); border-color: var(--stamp); color:#fbf9f2; }
-  .btn-primary:hover, .btn-primary:focus-visible{ transform: translateY(-2px); background:#c2673d; }
+  .btn-primary{ background: var(--stamp); border-color: var(--stamp); color:#ffffff; }
+  .btn-primary:hover, .btn-primary:focus-visible{ transform: translateY(-2px); background:#d9932a; }
   .btn-ghost{ background:transparent; color: var(--ink); }
-  .btn-ghost:hover, .btn-ghost:focus-visible{ transform: translateY(-2px); background: var(--ink); color:#fbf9f2; }
+  .btn-ghost:hover, .btn-ghost:focus-visible{ transform: translateY(-2px); background: var(--ink); color:#ffffff; }
   .btn:focus-visible{ outline: 2px solid var(--indigo); outline-offset: 3px; }
 
   .section{ padding: 84px 0; border-top: 1px solid var(--paper-line); }
@@ -152,12 +174,35 @@
   .step h3{ font-size:1.08rem; color: var(--ink); margin-bottom:6px; }
   .step p{ color: var(--ink-soft); margin:0; font-size:0.95rem; max-width: 58ch; }
 
+  .product-controls{ margin-bottom:28px; display:flex; flex-direction:column; gap:16px; }
+  .search-box{ position:relative; max-width:360px; }
+  .search-box input{
+    width:100%; padding:12px 16px 12px 40px; border:1px solid var(--paper-line);
+    border-radius: var(--radius); background:#fdfeff; font-family:'Noto Sans TC', sans-serif;
+    font-size:0.95rem; color: var(--ink);
+  }
+  .search-box input::placeholder{ color: var(--kraft); }
+  .search-box input:focus{ outline: 2px solid var(--indigo); outline-offset: 1px; border-color: var(--indigo); }
+  .search-box svg{ position:absolute; left:12px; top:50%; transform:translateY(-50%); width:16px; height:16px; }
+  .search-box svg path, .search-box svg circle{ stroke: var(--kraft); }
+  .filter-chips{ display:flex; flex-wrap:wrap; gap:10px; }
+  .chip{
+    padding:7px 16px; border:1px solid var(--paper-line); border-radius:999px;
+    background:#fdfeff; font-size:0.85rem; color: var(--ink-soft);
+    cursor:pointer; transition: all 0.18s ease; font-family:'Noto Sans TC', sans-serif;
+    text-decoration:none; display:inline-block;
+  }
+  .chip:hover{ border-color: var(--indigo); color: var(--ink); }
+  .chip.active{ background: var(--indigo); border-color: var(--indigo); color:#ffffff; }
+  .no-results{ color: var(--ink-soft); font-size:0.95rem; padding: 20px 0; }
+  .teaser-cta{ margin-top: 28px; }
+
   .product-grid{
     display:grid; grid-template-columns: repeat(auto-fit, minmax(230px, 1fr));
     gap: 24px;
   }
   .product-card{
-    background:#fbfdf9; border:1px solid var(--paper-line); border-radius: var(--radius);
+    background:#fdfeff; border:1px solid var(--paper-line); border-radius: var(--radius);
     overflow:hidden;
     opacity:0; transform: translateY(14px);
     transition: opacity 0.55s ease, transform 0.55s ease, box-shadow 0.2s ease;
@@ -189,19 +234,25 @@
   .notes li::marker{ color: var(--stamp); }
 
   .contact-grid{
-    display:grid; grid-template-columns: repeat(auto-fit, minmax(230px,1fr));
-    gap: 44px 28px; margin-top: 12px;
+    display:grid; grid-template-columns: repeat(auto-fit, minmax(200px,1fr));
+    gap: 20px; margin-top: 12px;
   }
-  .contact-item{ text-align:center; }
-  .contact-item .string{ margin: 0 auto 0; }
-  .contact-tag{
-    padding: 30px 24px 30px 42px; text-align:left;
-    transition: transform 0.2s ease;
+  .contact-item{
+    text-align:center; padding: 30px 22px;
+    background:#fdfeff; border:1px solid var(--paper-line); border-radius: 18px;
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
   }
-  .contact-item:hover .contact-tag{ transform: translateY(-4px) rotate(-1deg); }
-  .contact-tag .mono{ font-size:0.72rem; color: var(--kraft); }
-  .contact-tag h3{ font-size:1.15rem; margin-top:6px; color: var(--indigo); }
-  .contact-tag p{ color: var(--ink-soft); font-size:0.9rem; margin-top:8px; }
+  .contact-item:hover{ transform: translateY(-4px); box-shadow: 0 14px 26px rgba(28,58,79,0.10); }
+  .contact-icon{
+    width:52px; height:52px; margin:0 auto 16px;
+    border-radius:16px; background: var(--bg-2);
+    display:flex; align-items:center; justify-content:center;
+    color: var(--indigo);
+  }
+  .contact-icon svg{ width:24px; height:24px; }
+  .contact-platform{ font-size:0.7rem; color: var(--kraft); display:block; }
+  .contact-item h3{ font-size:1.1rem; margin-top:6px; color: var(--indigo); }
+  .contact-item p{ color: var(--ink-soft); font-size:0.88rem; margin-top:8px; }
 
   footer{
     padding: 40px 0 60px; text-align:center; color: var(--ink-soft); font-size:0.85rem;
@@ -214,6 +265,24 @@
     html{ scroll-behavior:auto; }
     .step, .product-card{ transition:none; opacity:1; transform:none; }
   }
+
+  @media (max-width: 620px){
+    .hero{ padding: 56px 0 48px; }
+    .hero-tag{ padding: 32px 24px 32px 44px; }
+    .tag::before{ left: 10%; width:11px; height:11px; }
+    .tag::after{ left: 20%; }
+    .tag{ clip-path: polygon(20% 0%, 100% 0%, 100% 100%, 20% 100%, 0% 50%); }
+    .section{ padding: 56px 0; }
+    .hero-cta{ flex-direction:column; align-items:stretch; }
+    .hero-cta .btn{ justify-content:center; }
+    .step{ grid-template-columns: 48px 1fr; gap: 14px; }
+    .step-num{ font-size:1.2rem; }
+    .contact-grid{ grid-template-columns: repeat(2, 1fr); }
+  }
+
+  @media (max-width: 400px){
+    .contact-grid{ grid-template-columns: 1fr; }
+  }
 </style>
 </head>
 <body>
@@ -221,12 +290,15 @@
 <header class="site">
   <div class="nav">
     <div class="brand"><span class="dot"></span>小島直送</div>
-    <nav class="nav-links">
-      <a href="#process">代購流程</a>
-      <a href="#categories">商品範例</a>
-      <a href="#notes">須知</a>
+    <nav class="nav-links" id="nav-links">
+      <a href="process.html">代購流程</a>
+      <a href="products.html">商品範例</a>
+      <a href="notes.html">須知</a>
       <a href="#contact">聯絡我</a>
     </nav>
+    <button class="nav-toggle" id="nav-toggle" aria-label="開啟選單" aria-expanded="false" aria-controls="nav-links">
+      <span></span><span></span><span></span>
+    </button>
   </div>
 </header>
 
@@ -240,21 +312,10 @@
         <p class="lead" id="hero-lead"></p>
         <div class="hero-cta">
           <a class="btn btn-primary" href="#contact" id="hero-cta-primary"></a>
-          <a class="btn btn-ghost" href="#process" id="hero-cta-secondary"></a>
+          <a class="btn btn-ghost" href="process.html" id="hero-cta-secondary"></a>
         </div>
       </div>
     </div>
-  </div>
-</section>
-
-<section class="section" id="process">
-  <div class="wrap">
-    <div class="section-head">
-      <span class="label-tag mono">HOW IT WORKS</span>
-      <h2>代購流程</h2>
-      <p class="sub">從詢問到收到包裹，每一步我都會跟你確認，不會有莫名其妙的追加費用。</p>
-    </div>
-    <div class="steps" id="steps"><div class="skeleton">載入中…</div></div>
   </div>
 </section>
 
@@ -263,20 +324,11 @@
     <div class="section-head">
       <span class="label-tag mono">WHAT WE SOURCE</span>
       <h2>商品範例</h2>
-      <p class="sub">這裡放實際代購過的商品照片、價格與預估到貨時間，讓客人下單前先有個底。</p>
+      <p class="sub">美妝、服飾、3C、零食、雜貨——什麼都能代購。點分類看範例，或直接逛全部商品。</p>
     </div>
-    <div class="product-grid" id="products"><div class="skeleton">載入中…</div></div>
-  </div>
-</section>
-
-<section class="section" id="notes">
-  <div class="wrap">
-    <div class="section-head">
-      <span class="label-tag mono">BEFORE YOU ORDER</span>
-      <h2>下單前須知</h2>
-    </div>
-    <div class="notes">
-      <ul id="notes-list"></ul>
+    <div class="filter-chips" id="teaser-chips"></div>
+    <div class="teaser-cta">
+      <a class="btn btn-primary" href="products.html">查看全部商品</a>
     </div>
   </div>
 </section>
@@ -329,10 +381,53 @@
     ]
   };
 
+  const navToggle = document.getElementById('nav-toggle');
+  const navLinks = document.getElementById('nav-links');
+  navToggle.addEventListener('click', () => {
+    const isOpen = navLinks.classList.toggle('open');
+    navToggle.classList.toggle('open', isOpen);
+    navToggle.setAttribute('aria-expanded', isOpen ? 'true' : 'false');
+  });
+  navLinks.querySelectorAll('a').forEach(a => {
+    a.addEventListener('click', () => {
+      navLinks.classList.remove('open');
+      navToggle.classList.remove('open');
+      navToggle.setAttribute('aria-expanded', 'false');
+    });
+  });
+
   function esc(str){
     const d = document.createElement('div');
     d.textContent = str == null ? '' : String(str);
     return d.innerHTML;
+  }
+
+  function getPlatformIcon(platform){
+    const p = (platform || '').toLowerCase();
+    if (p.includes('line')) {
+      return '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3.5C6.98 3.5 3 6.86 3 11c0 3.7 3.16 6.78 7.43 7.4-.1.4-.53 2-.6 2.32-.1.4.15.4.31.29.13-.09 2.07-1.4 2.9-1.97.63.09 1.29.14 1.96.14 5.02 0 9-3.36 9-7.5s-3.98-7.68-9-7.68Z"/></svg>';
+    }
+    if (p.includes('insta') || p === 'ig') {
+      return '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7"><rect x="3.5" y="3.5" width="17" height="17" rx="5"/><circle cx="12" cy="12" r="4"/><circle cx="17" cy="7" r="0.6" fill="currentColor" stroke="none"/></svg>';
+    }
+    if (p.includes('face') || p === 'fb') {
+      return '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7"><circle cx="12" cy="12" r="8.5"/><path d="M13.8 8.2h-1.1a1.6 1.6 0 0 0-1.6 1.6v1.6H9.4v2.1h1.7V19h2.1v-5.5h1.7l.3-2.1h-2v-1.3c0-.4.3-.6.6-.6h1.4V8.2Z" fill="currentColor" stroke="none"/></svg>';
+    }
+    return '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M21 11.5a8.4 8.4 0 0 1-8.4 8.4 8.3 8.3 0 0 1-3.8-.9L3 21l1.9-5.8a8.3 8.3 0 0 1-.9-3.7A8.4 8.4 0 0 1 12.6 3a8.4 8.4 0 0 1 8.4 8.5Z"/></svg>';
+  }
+
+  let ALL_PRODUCTS = [];
+
+  const io = new IntersectionObserver((entries)=>{
+    entries.forEach(e=>{ if(e.isIntersecting){ e.target.classList.add('in'); io.unobserve(e.target); } });
+  }, { threshold: 0.15 });
+
+  function renderTeaserChips(){
+    const cats = Array.from(new Set(
+      ALL_PRODUCTS.filter(p => p.enabled !== false).map(p => p.category).filter(Boolean)
+    ));
+    const chipsEl = document.getElementById('teaser-chips');
+    chipsEl.innerHTML = cats.map(c => `<a class="chip" href="products.html?cat=${encodeURIComponent(c)}">${esc(c)}</a>`).join('');
   }
 
   function render(data){
@@ -343,57 +438,21 @@
     document.getElementById('hero-cta-primary').textContent = data.hero?.cta_primary || '私訊我下單';
     document.getElementById('hero-cta-secondary').textContent = data.hero?.cta_secondary || '看代購流程';
 
-    // Steps
-    const stepsEl = document.getElementById('steps');
-    stepsEl.innerHTML = (data.steps || []).map((s, i) => `
-      <div class="step">
-        <div class="step-num mono">${String(i+1).padStart(2,'0')}</div>
-        <div>
-          <h3>${esc(s.title)}</h3>
-          <p>${esc(s.description)}</p>
-        </div>
-      </div>
-    `).join('');
-
-    // Products (只顯示 enabled 不是 false 的商品)
-    const productsEl = document.getElementById('products');
-    const visibleProducts = (data.products || []).filter(p => p.enabled !== false);
-    productsEl.innerHTML = visibleProducts.length ? visibleProducts.map((p, i) => `
-      <div class="product-card">
-        <img class="product-photo" src="${p.photo ? esc(p.photo) : 'https://placehold.co/400x400/e8f1e3/4f6b58?text=商品照片'}" alt="${esc(p.name)}">
-        <div class="product-body">
-          <span class="product-tag mono">${String(i+1).padStart(2,'0')} — ${esc(p.category || '')}</span>
-          <h3>${esc(p.name)}</h3>
-          <div class="product-meta">
-            <div class="product-price"><span>代購含運</span>${esc(p.price)}</div>
-            <div class="product-time"><span>預估到貨</span>${esc(p.eta)}</div>
-          </div>
-        </div>
-      </div>
-    `).join('') : '<p class="sub">目前沒有上架的商品，請到後台開啟商品的「上架顯示」開關。</p>';
-
-    // Notes
-    document.getElementById('notes-list').innerHTML = (data.notes || []).map(n => `<li>${esc(n)}</li>`).join('');
+    // 商品分類導覽（首頁只顯示分類卡片，完整商品清單在 products.html）
+    ALL_PRODUCTS = data.products || [];
+    renderTeaserChips();
 
     // Contact (只顯示 enabled 不是 false 的平台)
     const contactEl = document.getElementById('contact-grid');
     const visibleContacts = (data.contact || []).filter(c => c.enabled !== false);
     contactEl.innerHTML = visibleContacts.map(c => `
       <div class="contact-item">
-        <div class="string"></div>
-        <div class="tag contact-tag">
-          <span class="mono">${esc(c.platform)}</span>
-          <h3>${esc(c.handle)}</h3>
-          <p>${esc(c.note)}</p>
-        </div>
+        <div class="contact-icon">${getPlatformIcon(c.platform)}</div>
+        <span class="mono contact-platform">${esc(c.platform)}</span>
+        <h3>${esc(c.handle)}</h3>
+        <p>${esc(c.note)}</p>
       </div>
     `).join('');
-
-    // 卷動顯示動畫
-    const io = new IntersectionObserver((entries)=>{
-      entries.forEach(e=>{ if(e.isIntersecting){ e.target.classList.add('in'); io.unobserve(e.target); } });
-    }, { threshold: 0.15 });
-    document.querySelectorAll('.step, .product-card').forEach(el=> io.observe(el));
   }
 
   fetch('./data/site.json', { cache: 'no-store' })

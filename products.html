@@ -1,0 +1,381 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>商品範例｜小島直送</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Noto+Serif+TC:wght@500;700;900&family=Noto+Sans+TC:wght@400;500;700&family=Space+Mono:wght@400;700&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --bg: #eef7fc;
+    --bg-2: #dcedf7;
+    --ink: #1c3a4f;
+    --ink-soft: #52738a;
+    --indigo: #2b7fbf;
+    --stamp: #f2a93c;
+    --kraft: #a8c5d6;
+    --gold: #f2a93c;
+    --paper-line: rgba(28,58,79,0.12);
+    --radius: 2px;
+  }
+
+  *{ box-sizing: border-box; }
+  html{ scroll-behavior: smooth; }
+  body{
+    margin:0;
+    background: var(--bg);
+    color: var(--ink);
+    font-family: 'Noto Sans TC', sans-serif;
+    line-height: 1.7;
+    -webkit-font-smoothing: antialiased;
+  }
+  .mono{ font-family:'Space Mono', monospace; letter-spacing: 0.02em; }
+  h1,h2,h3{ font-family:'Noto Serif TC', serif; margin:0; }
+  a{ color:inherit; }
+  img{ max-width:100%; display:block; }
+
+  body::before{
+    content:"";
+    position: fixed; inset:0;
+    pointer-events:none;
+    z-index: 0;
+    background-image:
+      repeating-linear-gradient(0deg, transparent, transparent 39px, var(--paper-line) 40px);
+    opacity:0.5;
+  }
+
+  .wrap{ max-width: 1080px; margin: 0 auto; padding: 0 24px; position:relative; z-index:1; }
+
+  header.site{
+    position: sticky; top:0; z-index: 50;
+    background: rgba(238,247,252,0.92);
+    backdrop-filter: blur(6px);
+    border-bottom: 1px solid var(--paper-line);
+  }
+  .nav{
+    display:flex; align-items:center; justify-content:space-between;
+    padding: 16px 24px; max-width: 1080px; margin:0 auto;
+    position: relative;
+  }
+  .brand{
+    font-family:'Noto Serif TC', serif; font-weight:900; font-size: 1.25rem;
+    display:flex; align-items:center; gap:10px;
+  }
+  .brand .dot{ width:8px; height:8px; border-radius:50%; background: var(--stamp); display:inline-block; }
+  .nav-links{ display:flex; gap: 28px; font-size:0.92rem; }
+  .nav-links a{ text-decoration:none; color: var(--ink-soft); position:relative; padding-bottom:3px; }
+  .nav-links a:hover, .nav-links a:focus-visible{ color: var(--ink); }
+  .nav-links a.current{ color: var(--ink); }
+  .nav-links a::after{
+    content:""; position:absolute; left:0; bottom:0; width:0; height:1px; background: var(--stamp);
+    transition: width 0.25s ease;
+  }
+  .nav-links a:hover::after, .nav-links a.current::after{ width:100%; }
+
+  .nav-toggle{
+    display:none; background:none; border:none; padding:6px; cursor:pointer;
+    flex-direction:column; gap:5px; width:32px;
+  }
+  .nav-toggle span{ display:block; height:2px; background: var(--ink); border-radius:2px; transition: transform 0.2s ease, opacity 0.2s ease; }
+  .nav-toggle.open span:nth-child(1){ transform: translateY(7px) rotate(45deg); }
+  .nav-toggle.open span:nth-child(2){ opacity:0; }
+  .nav-toggle.open span:nth-child(3){ transform: translateY(-7px) rotate(-45deg); }
+
+  @media (max-width: 680px){
+    .nav-toggle{ display:flex; }
+    .nav-links{
+      display:none; position:absolute; top:100%; left:0; right:0;
+      flex-direction:column; gap:0; background: #fdfeff;
+      border-bottom: 1px solid var(--paper-line);
+      box-shadow: 0 12px 20px rgba(28,58,79,0.08);
+    }
+    .nav-links.open{ display:flex; }
+    .nav-links a{ padding: 16px 24px; border-bottom: 1px solid var(--paper-line); }
+    .nav-links a::after{ display:none; }
+  }
+
+  .page-head{ padding: 64px 0 16px; }
+  .label-tag{
+    display:inline-flex; align-items:center; padding: 6px 18px 6px 0;
+    font-size:0.78rem; letter-spacing:0.12em; text-transform:uppercase;
+    color: var(--indigo); margin-bottom: 18px;
+  }
+  .page-head h1{ font-size: clamp(1.8rem, 4vw, 2.6rem); color: var(--ink); }
+  .page-head p.sub{ color: var(--ink-soft); margin-top:14px; font-size:1rem; max-width: 56ch; }
+
+  .section{ padding: 32px 0 84px; }
+
+  .product-controls{ margin-bottom:28px; display:flex; flex-direction:column; gap:16px; }
+  .search-box{ position:relative; max-width:360px; }
+  .search-box input{
+    width:100%; padding:12px 16px 12px 40px; border:1px solid var(--paper-line);
+    border-radius: var(--radius); background:#fdfeff; font-family:'Noto Sans TC', sans-serif;
+    font-size:0.95rem; color: var(--ink);
+  }
+  .search-box input::placeholder{ color: var(--kraft); }
+  .search-box input:focus{ outline: 2px solid var(--indigo); outline-offset: 1px; border-color: var(--indigo); }
+  .search-box svg{ position:absolute; left:12px; top:50%; transform:translateY(-50%); width:16px; height:16px; }
+  .search-box svg path, .search-box svg circle{ stroke: var(--kraft); }
+  .filter-chips{ display:flex; flex-wrap:wrap; gap:10px; }
+  .chip{
+    padding:7px 16px; border:1px solid var(--paper-line); border-radius:999px;
+    background:#fdfeff; font-size:0.85rem; color: var(--ink-soft);
+    cursor:pointer; transition: all 0.18s ease; font-family:'Noto Sans TC', sans-serif;
+  }
+  .chip:hover{ border-color: var(--indigo); color: var(--ink); }
+  .chip.active{ background: var(--indigo); border-color: var(--indigo); color:#ffffff; }
+  .no-results{ color: var(--ink-soft); font-size:0.95rem; padding: 20px 0; }
+  .result-count{ color: var(--kraft); font-size:0.82rem; margin-bottom: -4px; }
+
+  .product-grid{
+    display:grid; grid-template-columns: repeat(auto-fit, minmax(230px, 1fr));
+    gap: 24px;
+  }
+  .product-card{
+    background:#fdfeff; border:1px solid var(--paper-line); border-radius: var(--radius);
+    overflow:hidden;
+    opacity:0; transform: translateY(14px);
+    transition: opacity 0.55s ease, transform 0.55s ease, box-shadow 0.2s ease;
+  }
+  .product-card.in{ opacity:1; transform:none; }
+  .product-card:hover{ box-shadow: 0 14px 28px rgba(31,51,39,0.12); }
+  .product-photo{
+    width:100%; aspect-ratio: 1 / 1; object-fit: cover;
+    background: var(--bg-2); border-bottom: 1px solid var(--paper-line);
+  }
+  .product-body{ padding: 18px 20px 22px; }
+  .product-tag{ font-size:0.7rem; color: var(--kraft); display:block; margin-bottom:8px; }
+  .product-body h3{ font-size:1.02rem; color: var(--ink); }
+  .product-meta{
+    display:flex; justify-content:space-between; align-items:baseline;
+    margin-top: 14px; padding-top: 14px; border-top: 1px dashed var(--paper-line);
+  }
+  .product-price{ font-size:1.15rem; font-weight:700; color: var(--indigo); }
+  .product-price span{ font-size:0.72rem; color: var(--ink-soft); font-weight:400; display:block; margin-bottom:2px; }
+  .product-time{ text-align:right; font-size:0.78rem; color: var(--ink-soft); }
+  .product-time span{ display:block; font-size:0.68rem; color: var(--kraft); margin-bottom:2px; }
+
+  .pagination{
+    display:flex; align-items:center; justify-content:center; gap:8px;
+    margin-top: 48px; flex-wrap:wrap;
+  }
+  .page-btn{
+    min-width:38px; height:38px; padding:0 10px;
+    border:1px solid var(--paper-line); background:#fdfeff; border-radius:8px;
+    cursor:pointer; font-family:'Space Mono', monospace; font-size:0.85rem;
+    color: var(--ink-soft); transition: all 0.18s ease;
+  }
+  .page-btn:hover:not(:disabled){ border-color: var(--indigo); color: var(--ink); }
+  .page-btn.active{ background: var(--indigo); border-color: var(--indigo); color:#ffffff; }
+  .page-btn:disabled{ opacity:0.35; cursor:not-allowed; }
+
+  footer{
+    padding: 40px 0 60px; text-align:center; color: var(--ink-soft); font-size:0.85rem;
+    border-top: 1px solid var(--paper-line);
+  }
+  .skeleton{ opacity:0.5; font-size:0.85rem; color: var(--ink-soft); padding: 12px 0; }
+
+  @media (prefers-reduced-motion: reduce){
+    html{ scroll-behavior:auto; }
+    .product-card{ transition:none; opacity:1; transform:none; }
+  }
+
+  @media (max-width: 620px){
+    .page-head{ padding: 40px 0 8px; }
+    .section{ padding: 24px 0 56px; }
+  }
+</style>
+</head>
+<body>
+
+<header class="site">
+  <div class="nav">
+    <a href="index.html" class="brand"><span class="dot"></span>小島直送</a>
+    <nav class="nav-links" id="nav-links">
+      <a href="process.html">代購流程</a>
+      <a href="products.html" class="current">商品範例</a>
+      <a href="notes.html">須知</a>
+      <a href="index.html#contact">聯絡我</a>
+    </nav>
+    <button class="nav-toggle" id="nav-toggle" aria-label="開啟選單" aria-expanded="false" aria-controls="nav-links">
+      <span></span><span></span><span></span>
+    </button>
+  </div>
+</header>
+
+<section class="page-head">
+  <div class="wrap">
+    <span class="label-tag mono">WHAT WE SOURCE</span>
+    <h1>商品範例</h1>
+    <p class="sub">這裡放實際代購過的商品照片、價格與預估到貨時間，讓客人下單前先有個底。</p>
+  </div>
+</section>
+
+<section class="section">
+  <div class="wrap">
+    <div class="product-controls">
+      <div class="search-box">
+        <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <circle cx="11" cy="11" r="7" stroke-width="2"/>
+          <path d="M21 21L16.65 16.65" stroke-width="2" stroke-linecap="round"/>
+        </svg>
+        <input type="text" id="product-search" placeholder="搜尋商品名稱…">
+      </div>
+      <div class="filter-chips" id="filter-chips"></div>
+      <div class="result-count mono" id="result-count"></div>
+    </div>
+    <div class="product-grid" id="products"><div class="skeleton">載入中…</div></div>
+    <div class="pagination" id="pagination"></div>
+  </div>
+</section>
+
+<footer>
+  <div class="wrap">小島直送｜日本代購服務 — 本頁面內容僅供參考，請依實際服務調整</div>
+</footer>
+
+<script>
+  const PAGE_SIZE = 9; // 3 x 3 版面，桌機/平板/手機都好排版
+
+  const FALLBACK_PRODUCTS = [
+    { enabled: true, category: "BEAUTY", name: "商品名稱（例：藥妝保養品）", photo: "", price: "NT$ 000", eta: "7–10 個工作天" },
+    { enabled: true, category: "FASHION", name: "商品名稱（例：服飾配件）", photo: "", price: "NT$ 000", eta: "7–10 個工作天" },
+    { enabled: true, category: "ELECTRONICS", name: "商品名稱（例：3C家電）", photo: "", price: "NT$ 000", eta: "7–10 個工作天" }
+  ];
+
+  function esc(str){
+    const d = document.createElement('div');
+    d.textContent = str == null ? '' : String(str);
+    return d.innerHTML;
+  }
+
+  const navToggle = document.getElementById('nav-toggle');
+  const navLinks = document.getElementById('nav-links');
+  navToggle.addEventListener('click', () => {
+    const isOpen = navLinks.classList.toggle('open');
+    navToggle.classList.toggle('open', isOpen);
+    navToggle.setAttribute('aria-expanded', isOpen ? 'true' : 'false');
+  });
+
+  let ALL_PRODUCTS = [];
+  let currentCategory = '全部';
+  let currentSearch = '';
+  let currentPage = 1;
+
+  const params = new URLSearchParams(location.search);
+  if (params.get('cat')) currentCategory = params.get('cat');
+
+  const io = new IntersectionObserver((entries)=>{
+    entries.forEach(e=>{ if(e.isIntersecting){ e.target.classList.add('in'); io.unobserve(e.target); } });
+  }, { threshold: 0.15 });
+
+  function getFilteredList(){
+    let list = ALL_PRODUCTS.filter(p => p.enabled !== false);
+    if (currentCategory !== '全部') {
+      list = list.filter(p => (p.category || '').toUpperCase() === currentCategory.toUpperCase());
+    }
+    if (currentSearch.trim()) {
+      const q = currentSearch.trim().toLowerCase();
+      list = list.filter(p =>
+        (p.name || '').toLowerCase().includes(q) ||
+        (p.category || '').toLowerCase().includes(q)
+      );
+    }
+    return list;
+  }
+
+  function renderFilterChips(){
+    const cats = Array.from(new Set(
+      ALL_PRODUCTS.filter(p => p.enabled !== false).map(p => p.category).filter(Boolean)
+    ));
+    const chipsEl = document.getElementById('filter-chips');
+    const allChips = ['全部', ...cats];
+    chipsEl.innerHTML = allChips.map(c => `
+      <button type="button" class="chip${c.toUpperCase() === currentCategory.toUpperCase() ? ' active' : ''}" data-cat="${esc(c)}">${esc(c)}</button>
+    `).join('');
+    chipsEl.querySelectorAll('.chip').forEach(btn => {
+      btn.addEventListener('click', () => {
+        currentCategory = btn.dataset.cat;
+        currentPage = 1;
+        renderFilterChips();
+        renderProducts();
+      });
+    });
+  }
+
+  function renderPagination(totalItems){
+    const pagEl = document.getElementById('pagination');
+    const totalPages = Math.max(1, Math.ceil(totalItems / PAGE_SIZE));
+    if (currentPage > totalPages) currentPage = totalPages;
+
+    if (totalPages <= 1) { pagEl.innerHTML = ''; return; }
+
+    let html = `<button type="button" class="page-btn" data-page="prev" ${currentPage === 1 ? 'disabled' : ''} aria-label="上一頁">‹</button>`;
+    for (let i = 1; i <= totalPages; i++) {
+      html += `<button type="button" class="page-btn${i === currentPage ? ' active' : ''}" data-page="${i}">${i}</button>`;
+    }
+    html += `<button type="button" class="page-btn" data-page="next" ${currentPage === totalPages ? 'disabled' : ''} aria-label="下一頁">›</button>`;
+    pagEl.innerHTML = html;
+
+    pagEl.querySelectorAll('.page-btn').forEach(btn => {
+      btn.addEventListener('click', () => {
+        const p = btn.dataset.page;
+        if (p === 'prev') currentPage = Math.max(1, currentPage - 1);
+        else if (p === 'next') currentPage = Math.min(totalPages, currentPage + 1);
+        else currentPage = parseInt(p, 10);
+        renderProducts();
+        document.querySelector('.product-controls').scrollIntoView({ behavior: 'smooth', block: 'start' });
+      });
+    });
+  }
+
+  function renderProducts(){
+    const productsEl = document.getElementById('products');
+    const filtered = getFilteredList();
+    const totalPages = Math.max(1, Math.ceil(filtered.length / PAGE_SIZE));
+    if (currentPage > totalPages) currentPage = totalPages;
+    const start = (currentPage - 1) * PAGE_SIZE;
+    const pageItems = filtered.slice(start, start + PAGE_SIZE);
+
+    document.getElementById('result-count').textContent = filtered.length
+      ? `共 ${filtered.length} 件商品，第 ${currentPage} / ${totalPages} 頁`
+      : '';
+
+    productsEl.innerHTML = pageItems.length ? pageItems.map((p, i) => `
+      <div class="product-card">
+        <img class="product-photo" src="${p.photo ? esc(p.photo) : 'https://placehold.co/400x400/dcedf7/2b7fbf?text=商品照片'}" alt="${esc(p.name)}">
+        <div class="product-body">
+          <span class="product-tag mono">${String(start + i + 1).padStart(2,'0')} — ${esc(p.category || '')}</span>
+          <h3>${esc(p.name)}</h3>
+          <div class="product-meta">
+            <div class="product-price"><span>代購含運</span>${esc(p.price)}</div>
+            <div class="product-time"><span>預估到貨</span>${esc(p.eta)}</div>
+          </div>
+        </div>
+      </div>
+    `).join('') : '<p class="no-results">沒有符合的商品，換個關鍵字或分類試試看。</p>';
+
+    document.querySelectorAll('.product-card').forEach(el => io.observe(el));
+    renderPagination(filtered.length);
+  }
+
+  document.getElementById('product-search').addEventListener('input', (e) => {
+    currentSearch = e.target.value;
+    currentPage = 1;
+    renderProducts();
+  });
+
+  function init(products){
+    ALL_PRODUCTS = products || [];
+    renderFilterChips();
+    renderProducts();
+  }
+
+  fetch('./data/site.json', { cache: 'no-store' })
+    .then(res => { if(!res.ok) throw new Error('no data file'); return res.json(); })
+    .then(data => init(data.products && data.products.length ? data.products : FALLBACK_PRODUCTS))
+    .catch(() => init(FALLBACK_PRODUCTS));
+</script>
+
+</body>
+</html>
